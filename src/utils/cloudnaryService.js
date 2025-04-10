@@ -1,6 +1,6 @@
-import {v2 as Cloudinary} from "cloudinary"
+import {v2 as cloudinary} from "cloudinary"
 import fs from "fs"
-import { loadEnvFile } from "process";
+// import { loadEnvFile } from "process";
 
 // Configuration
 cloudinary.config({ 
@@ -19,8 +19,10 @@ const uploadOnCloudinary = async (localFilePath)=>{
         })
         // file has been uploaded succesfully
         console.log("Fileis uploaded on cloudinary ",response.url);
+        fs.unlinkSync(localFilePath)
         return response
     }catch(error){
+        console.error("Cloudinary upload error : ",error)
         fs.unlinkSync(localFilePath) // remove the locally saved temporary file as the upload operation got failed
     }
 }
